@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h2>Welcome to Your Expense Manager</h2>
+  <ul>
+    <li><a href="{{ url_for('add_bywho') }}">Add ByWho</a></li>
+    <li><a href="{{ url_for('add_category') }}">Add Category</a></li>
+    <li><a href="{{ url_for('add_entry') }}">Add Entry</a></li>
+    <li><a href="{{ url_for('list_entries') }}">View Entries</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ul>
+</body>
+</html>

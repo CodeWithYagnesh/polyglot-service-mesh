@@ -1,0 +1,40 @@
+apiVersion: apps/v1 # by_who
+kind: Deployment
+metadata:
+  name: task-by-who
+  namespace: prod
+  labels:
+    app: task-by-who
+spec:
+  selector:
+    matchLabels:
+      app: task-by-who
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: task-by-who
+    spec:
+      containers:
+      - name: task-by-who
+        image: yagneshjariwala/task-by-who:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        envFrom:
+        # - configMapRef:
+        #     name: task-by-who
+        - secretRef:
+            name: task-by-who
+        - secretRef:
+            name: common-backend

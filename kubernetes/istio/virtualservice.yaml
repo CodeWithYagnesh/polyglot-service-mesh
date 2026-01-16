@@ -1,0 +1,65 @@
+
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: task
+  namespace: prod
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - task-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /user
+    route:
+    - destination:
+        host: task-auth
+        port:
+          number: 8081
+  - match:
+    - uri:
+        prefix: /bywho
+    route:
+    - destination:
+        host: task-by-who
+        port:
+          number: 8082
+  - match:
+    - uri:
+        prefix: /category
+    route:
+    - destination:
+        host: task-category
+        port:
+          number: 8083
+  - match:
+    - uri:
+        prefix: /entry
+    route:
+    - destination:
+        host: task-entry
+        port:
+          number: 8084
+  - match:
+    - uri:
+        exact: /login
+    - uri:
+        exact: /register
+    - uri:
+        exact: /dashboard
+    - uri:
+        exact: /category/add
+    - uri:
+        exact: /entry/add
+    - uri:
+        exact: /entries
+    - uri:
+        exact: /logout
+    route:
+    - destination:
+        host: task-frontend
+        port:
+          number: 3000
+---

@@ -1,0 +1,38 @@
+apiVersion: apps/v1 # frontend
+kind: Deployment
+metadata:
+  name: task-frontend
+  namespace: prod
+  labels:
+    app: task-frontend
+spec:
+  selector:
+    matchLabels:
+      app: task-frontend
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: task-frontend
+    spec:
+      containers:
+      - name: task-frontend
+        image: yagneshjariwala/task-frontend:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        envFrom:
+        # - configMapRef:
+        #     name: task-frontend
+        - secretRef:
+            name: task-frontend

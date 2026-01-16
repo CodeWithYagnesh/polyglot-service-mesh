@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Entry</title>
+</head>
+<body>
+  <h2>Add Financial Entry</h2>
+  <form method="post">
+    Transaction Type:
+    <select name="transaction_type" required>
+      <option value="income">Income</option>
+      <option value="expense">Expense</option>
+    </select><br><br>
+
+    Date: <input type="date" name="date" required><br><br>
+    Reason: <input type="text" name="reason" required><br><br>
+    By Who: <input type="text" name="by_who" required><br><br>
+    Category: <input type="text" name="category" required><br><br>
+    Amount: <input type="number" name="amount" step="0.01" required><br><br>
+    Owe? <input type="checkbox" name="owe"><br><br>
+
+    <input type="submit" value="Add Entry">
+  </form>
+  <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+</body>
+</html>

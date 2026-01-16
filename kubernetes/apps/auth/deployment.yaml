@@ -1,0 +1,167 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-auth
+  namespace: prod
+  labels:
+    app: task-auth
+spec:
+  selector:
+    matchLabels:
+      app: task-auth
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: task-auth
+    spec:
+      containers:
+      - name: task-auth
+        image: yagneshjariwala/task-auth:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        envFrom:
+        # - configMapRef:
+        #     name: task-auth
+        - secretRef:
+            name: task-auth
+        - secretRef:
+            name: common-backend
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1 # by_who
+kind: Deployment
+metadata:
+  name: task-by-who
+  namespace: prod
+  labels:
+    app: task-by-who
+spec:
+  selector:
+    matchLabels:
+      app: task-by-who
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: task-by-who
+    spec:
+      containers:
+      - name: task-by-who
+        image: yagneshjariwala/task-by-who:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        envFrom:
+        # - configMapRef:
+        #     name: task-by-who
+        - secretRef:
+            name: task-by-who
+        - secretRef:
+            name: common-backend
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1 # category
+kind: Deployment
+metadata:
+  name: task-category
+  namespace: prod
+  labels:
+    app: task-category
+spec:
+  selector:
+    matchLabels:
+      app: task-category
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: task-category
+    spec:
+      containers:
+      - name: task-category
+        image: yagneshjariwala/task-category:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        envFrom:
+        # - configMapRef:
+        #     name: task-category
+        - secretRef:
+            name: task-category
+        - secretRef:
+            name: common-backend
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1 # entry
+kind: Deployment
+metadata:
+  name: task-entry
+  namespace: prod
+  labels:
+    app: task-entry
+spec:
+  selector:
+    matchLabels:
+      app: task-entry
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: task-entry
+    spec:
+      containers:
+      - name: task-entry
+        image: yagneshjariwala/task-entry:v4
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        envFrom:
+        # - configMapRef:
+        #     name: task-entry
+        - secretRef:
+            name: task-entry
+        - secretRef:
+            name: common-backend
+---

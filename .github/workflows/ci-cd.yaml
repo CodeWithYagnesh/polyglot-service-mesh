@@ -1,0 +1,67 @@
+name: Microservices Build & Push
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      auth: ${{ steps.filter.outputs.auth }}
+      by_who: ${{ steps.filter.outputs.by_who }}
+      category: ${{ steps.filter.outputs.category }}
+      entry: ${{ steps.filter.outputs.entry }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            auth: 'backend/auth/**'
+            by_who: 'backend/by_who/**'
+            category: 'backend/category/**'
+            entry: 'backend/entry/**'
+            frontend: 'frontend/**'
+
+  build-and-push:
+    needs: changes
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [auth, by_who, category, entry, frontend]
+
+    if: needs.changes.outputs[matrix.service] == 'true'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Determine Build Context
+        id: context
+        run: |
+          if [[ "${{ matrix.service }}" == "frontend" ]]; then
+            echo "dir=frontend" >> $GITHUB_OUTPUT
+          else
+            echo "dir=backend/${{ matrix.service }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./${{ steps.context.outputs.dir }}
+          push: true
+          # Tags image as: your-username/auth-service:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}-service:latest

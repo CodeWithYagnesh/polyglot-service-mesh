@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-entry
+  namespace: prod
+spec:
+  selector:
+    app: task-entry
+  type: ClusterIP
+  ports:
+  - name: task-entry
+    protocol: TCP
+    port: 8084
+    targetPort: 8084

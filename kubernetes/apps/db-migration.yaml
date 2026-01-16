@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration
+  namespace: prod
+spec:
+  template:
+    spec:
+      containers:
+      - name: migration
+        image: mysql:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - "mysql -h $DATABASE_URL -U $DB_USERNAME -d $DATABASE_NAME -f /scripts/query.sql"
+        envFrom:
+          - secretRef:
+              name: common-backend
+        volumeMounts:
+        - name: sql-script
+          mountPath: /scripts
+      volumes:
+      - name: sql-script
+        configMap:
+          name: db-schema
+      restartPolicy: OnFailure

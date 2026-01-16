@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Category</title>
+</head>
+<body>
+  <h2>Add Category</h2>
+  <form method="post">
+    Name: <input type="text" name="name" required><br><br>
+    Description: <input type="text" name="description"><br><br>
+    <input type="submit" value="Add">
+  </form>
+  <p><a href="{{ url_for('dashboard') }}">Back to Dashboard</a></p>
+</body>
+</html>

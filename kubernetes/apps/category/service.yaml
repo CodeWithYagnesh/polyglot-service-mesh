@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-category
+  namespace: prod
+spec:
+  selector:
+    app: task-category
+  type: ClusterIP
+  ports:
+  - name: task-category
+    protocol: TCP
+    port: 8083
+    targetPort: 8083
