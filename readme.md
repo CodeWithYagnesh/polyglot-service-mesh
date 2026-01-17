@@ -15,7 +15,7 @@ This project solves the challenge of managing a polyglot architecture (Python Fr
 ## ⚡ Architecture Overview (The 30-Second View)
 The system is decomposed into 5 decoupled microservices communicating over an Istio Service Mesh.
 
-![Simple Architecture Diagram](./simple_architecutre.svg)
+![Simple Architecture Diagram](./images/simple_architecutre.svg)
 
 ---
 
@@ -43,7 +43,7 @@ Replaced standard Kubernetes Ingress with **Istio** to unlock advanced L7 routin
 
 Below is the detailed view of the runtime environment, including the **Istio Control Plane**, **Sidecar injection**, and **Data Plane** communication flows.
 
-![Full Architecture Diagram](./full_architecture.svg)
+![Full Architecture Diagram](./images/full_architecture.svg)
 
 ### Service Inventory
 | Service | Language | Port | Description |
